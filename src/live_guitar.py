@@ -44,7 +44,8 @@ while True:
     try:
         with open('./../data/live/' + str(count).zfill(12) + '_' + 'keypoints.json') as f:
 
-            data = json.load(f)['people'][0]['pose_keypoints_2d']
+            people = json.load(f)['people']
+            data = people[0]['pose_keypoints_2d'] if people else [0 for _ in range(25)]
 
             MidHips.append(np.array(data[KEY_POINTS.index('MidHip') * 3: KEY_POINTS.index('MidHip') * 3 + 2]))
             LWrists.append(np.array(data[KEY_POINTS.index('LWrist') * 3: KEY_POINTS.index('LWrist') * 3 + 2]))
