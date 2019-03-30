@@ -55,4 +55,3 @@ def get_frames(video, key_points):
                 result[key_point].append((data[idx * 3], data[idx * 3]))
 
     return result
-
