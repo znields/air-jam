@@ -56,5 +56,3 @@ def get_frames(video, key_points):
 
     return result
 
-
-print(get_frames('video.avi', ['RHeel', 'Nose']))
