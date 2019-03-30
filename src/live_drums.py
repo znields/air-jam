@@ -58,8 +58,8 @@ except Exception as e: pass
 
 # initialize count and debounce
 count = 0
-debounce_left = 500
-debounce_right = 500
+debounce_left = 1000
+debounce_right = 1000
 
 # create a list for right wrist points
 RWrists = []
@@ -72,6 +72,7 @@ rw_idx = KEY_POINTS.index('RWrist')
 rs_idx = KEY_POINTS.index('RShoulder')
 lw_idx = KEY_POINTS.index('LWrist')
 ls_idx = KEY_POINTS.index('LShoulder')
+hip_idx = KEY_POINTS.index('MidHip')
 
 # continuously search for new json files
 while True:
@@ -91,52 +92,66 @@ while True:
             LWrists.append(np.array(data[lw_idx * 3: lw_idx * 3 + 2]))
             LShoulders.append(np.array(data[ls_idx * 3: ls_idx * 3 + 2]))
 
-            # TODO: remove
-            print(RShoulders[-1])
+            MidHip = set(data[hip_idx * 3: hip_idx * 3 + 2])
 
             # iterate over each list of key points
             for l in [RWrists, RShoulders, LWrists, LShoulders]:
 
                 # if there are more than five key points
-                if len(l) > 5:
+                if len(l) > 200:
                     # remove the last one
                     l.pop(0)
 
             # calculate the right wrist velocity
-            rw_velocity = RWrists[-1] - RWrists[0] / 0.5
+            rw_velocity = RWrists[-1] - RWrists[0]
             rw_speed = np.linalg.norm(rw_velocity)
 
-            if rw_speed > 0.9 and debounce_right < 0:
+            if rw_speed > 0.1 and rw_velocity[1] > 0 > debounce_right and 0 not in MidHip:
 
-                debounce_right = 500
+                debounce_right = 1000
 
-                # if the right wrist is above the right shoulder
-                if RWrists[-1][1] <= RShoulders[-1][1]:
-                    print(RWrists[-1], RShoulders[-1])
+                # if the right wrist is outside the right shoulder
+                if RWrists[-1][0] + 0.05 < RShoulders[-1][0]:
 
-                    # play the ride cymbal
-                    sounds['ride-cymbal'].set_volume(rw_speed)
+                    # play the floor tom
+                    # sounds['floor-tom'].set_volume(rw_speed)
+                    sounds['floor-tom'].play()
+                    print('Floor Tom', rw_speed)
+
+                else:
+                    # play the floor tom
+                    # sounds['mid-tom'].set_volume(rw_speed)
+                    sounds['mid-tom'].play()
+                    print('Mid Tom', rw_speed)
+
+            debounce_right -= 1
+
+            #########################################
+
+            # calculate the left wrist velocity
+            lw_velocity = LWrists[-1] - LWrists[0]
+            rw_speed = np.linalg.norm(lw_velocity)
+
+            if rw_speed > 0.1 and lw_velocity[1] > 0 > debounce_left and 0 not in MidHip:
+
+                debounce_left = 1000
+
+                # if the right wrist is outside the right shoulder
+                if LWrists[-1][0] - 0.05 < LShoulders[-1][0]:
+
+                    # play the snare drum
+                    # sounds['snare-drum'].set_volume(rw_speed)
+                    sounds['snare-drum'].play()
+                    print('Snare Drum', rw_speed)
+
+                else:
+                    # play the floor tom
+                    # sounds['ride-cymbal'].set_volume(rw_speed)
                     sounds['ride-cymbal'].play()
                     print('Ride Cymbal', rw_speed)
 
-                else:
+            debounce_left -= 1
 
-                    # if the right wrist is outside the right shoulder
-                    if RWrists[-1][0] < RShoulders[-1][0]:
-
-                        # play the floor tom
-                        sounds['floor-tom'].set_volume(rw_speed)
-                        sounds['floor-tom'].play()
-                        print('Floor Tom', rw_speed)
-
-                    else:
-                        # play the floor tom
-                        sounds['mid-tom'].set_volume(rw_speed)
-                        sounds['mid-tom'].play()
-                        print('Mid Tom', rw_speed)
-
-            debounce_right -= 1
-            lw_velocity = LWrists[-1] - LWrists[0]
             count += 1
 
     except FileNotFoundError:

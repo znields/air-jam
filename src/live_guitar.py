@@ -59,7 +59,7 @@ except Exception as e: pass
 
 # initialize count and debounce
 count = 0
-debounce = 500
+debounce = 10000
 
 # create a list for right wrist points
 RWrists = []
@@ -77,7 +77,7 @@ while True:
             data = people[0]['pose_keypoints_2d'] if people else [0 for _ in range(75)]
 
             # get the indices for left hip and wrist and right wrist
-            lh_idx, lw_idx, rw_idx = KEY_POINTS.index('LHip'), KEY_POINTS.index('LWrist'), KEY_POINTS.index('RWrist')
+            lh_idx, lw_idx, rw_idx = KEY_POINTS.index('LHip'), KEY_POINTS.index('RWrist'), KEY_POINTS.index('LWrist')
 
             # get the current left hip and left wrist points
             LHip = np.array(data[lh_idx * 3: lh_idx * 3 + 2])
@@ -87,7 +87,7 @@ while True:
             RWrists.append(np.array(data[rw_idx * 3: rw_idx * 3 + 2]))
 
             # if the length of wrists is more than 5
-            if len(RWrists) > 5:
+            if len(RWrists) > 200:
 
                 # remove the first element
                 RWrists.pop(0)
@@ -96,10 +96,10 @@ while True:
             RWristVelocity = np.array([0.0, 0.0]) if len(RWrists) < 5 else (RWrists[-1] - RWrists[0]) / 0.4
 
             # calculate the left wrist difference from the hip
-            handDistance = np.linalg.norm(LHip - LWrist) / 1
+            handDistance = np.linalg.norm(LHip - LWrist)
 
             # if the right wrist's downward velocity is more than 0.2
-            if RWristVelocity[1] > 0.2 and debounce < 0 and handDistance > 0.05:
+            if RWristVelocity[1] > 0.05 and debounce < 0 and handDistance > 0.05:
 
                 i_prev = 0.05
 
@@ -110,7 +110,7 @@ while True:
                     if i_prev < handDistance < i:
 
                         # set the sound volume based on strum speed
-                        sound.set_volume(np.linalg.norm(RWristVelocity))
+                        # sound.set_volume(np.linalg.norm(RWristVelocity))
 
                         # play the sound
                         sound.play()
@@ -121,7 +121,7 @@ while True:
                     i_prev = i
 
                 # reset the debounce
-                debounce = 500
+                debounce = 1000
 
             # increment count and decrement debounce
             debounce -= 1
