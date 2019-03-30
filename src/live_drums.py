@@ -11,16 +11,16 @@ folder = 'drums'
 pygame.mixer.init()
 
 # initialize the sounds
-sounds = []
+sounds = {}
 
 # iterate over each of the sounds
 for file in listdir('./../sound/' + folder):
 
     # create the new sound and save it
-    sounds.append(pygame.mixer.Sound("./../sound/" + folder + '/' + file))
+    sounds[file.split('.')[0]] = pygame.mixer.Sound("./../sound/" + folder + '/' + file)
 
     # play the sound
-    pygame.mixer.Sound.play(sounds[-1])
+    pygame.mixer.Sound.play(sounds[file.split('.')[0]])
 
 # create the key points
 KEY_POINTS = [
@@ -58,7 +58,8 @@ except Exception as e: pass
 
 # initialize count and debounce
 count = 0
-debounce = 500
+debounce_left = 500
+debounce_right = 500
 
 # create a list for right wrist points
 RWrists = []
@@ -84,11 +85,59 @@ while True:
             # get the pose key points
             data = people[0]['pose_keypoints_2d'] if people else [0 for _ in range(78)]
 
-            RWrists.append(np.array(data[rw_idx * 3: rw_idx * 3 + 1]))
-            RShoulders.append(np.array(data[rw_idx * 3: rw_idx * 3 + 1]))
+            # get the body key points
+            RWrists.append(np.array(data[rw_idx * 3: rw_idx * 3 + 2]))
+            RShoulders.append(np.array(data[rs_idx * 3: rs_idx * 3 + 2]))
+            LWrists.append(np.array(data[lw_idx * 3: lw_idx * 3 + 2]))
+            LShoulders.append(np.array(data[ls_idx * 3: ls_idx * 3 + 2]))
 
+            # TODO: remove
+            print(RShoulders[-1])
 
-        count += 1
+            # iterate over each list of key points
+            for l in [RWrists, RShoulders, LWrists, LShoulders]:
+
+                # if there are more than five key points
+                if len(l) > 5:
+                    # remove the last one
+                    l.pop(0)
+
+            # calculate the right wrist velocity
+            rw_velocity = RWrists[-1] - RWrists[0] / 0.5
+            rw_speed = np.linalg.norm(rw_velocity)
+
+            if rw_speed > 0.9 and debounce_right < 0:
+
+                debounce_right = 500
+
+                # if the right wrist is above the right shoulder
+                if RWrists[-1][1] <= RShoulders[-1][1]:
+                    print(RWrists[-1], RShoulders[-1])
+
+                    # play the ride cymbal
+                    sounds['ride-cymbal'].set_volume(rw_speed)
+                    sounds['ride-cymbal'].play()
+                    print('Ride Cymbal', rw_speed)
+
+                else:
+
+                    # if the right wrist is outside the right shoulder
+                    if RWrists[-1][0] < RShoulders[-1][0]:
+
+                        # play the floor tom
+                        sounds['floor-tom'].set_volume(rw_speed)
+                        sounds['floor-tom'].play()
+                        print('Floor Tom', rw_speed)
+
+                    else:
+                        # play the floor tom
+                        sounds['mid-tom'].set_volume(rw_speed)
+                        sounds['mid-tom'].play()
+                        print('Mid Tom', rw_speed)
+
+            debounce_right -= 1
+            lw_velocity = LWrists[-1] - LWrists[0]
+            count += 1
 
     except FileNotFoundError:
         if count > 0:
