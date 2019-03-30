@@ -52,6 +52,6 @@ def get_frames(video, key_points):
                 idx = KEY_POINTS.index(key_point)
 
                 # extract the coordinate
-                result[key_point].append((data[idx * 3], data[idx * 3]))
+                result[key_point].append((data[idx * 3], data[idx * 3 + 1]))
 
     return result

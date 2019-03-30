@@ -45,14 +45,15 @@ while True:
         with open('./../data/live/' + str(count).zfill(12) + '_' + 'keypoints.json') as f:
 
             people = json.load(f)['people']
-            data = people[0]['pose_keypoints_2d'] if people else [0 for _ in range(25)]
+            data = people[0]['pose_keypoints_2d'] if people else [0 for _ in range(75)]
 
             MidHip = np.array(data[KEY_POINTS.index('MidHip') * 3: KEY_POINTS.index('MidHip') * 3 + 2])
             LWrist = np.array(data[KEY_POINTS.index('LWrist') * 3: KEY_POINTS.index('LWrist') * 3 + 2])
 
             RWrists.append(np.array(data[KEY_POINTS.index('RWrist') * 3: KEY_POINTS.index('RWrist') * 3 + 2]))
 
-            if len(RWrists) > 5: RWrists.pop(0)
+            if len(RWrists) > 5:
+                RWrists.pop(0)
 
             RWristVelocity = np.array([0.0, 0.0]) if len(RWrists) < 5 else RWrists[-1] - RWrists[0]
 
