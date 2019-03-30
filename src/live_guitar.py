@@ -2,25 +2,26 @@ from shutil import rmtree
 import json
 import numpy as np
 import traceback
-import pygame
+import pydub
+from pydub.playback import play
 from os import listdir
+import pygame
 
 folder = 'guitar'
 
-# initialize pygame
-pygame.mixer.init()
-
 # initialize the sounds
 sounds = []
+
+pygame.mixer.init()
 
 # iterate over each of the sounds
 for file in listdir('./../sound/' + folder):
 
     # create the new sound and save it
-    sounds.append(pygame.mixer.Sound("./../sound/" + folder + '/' + file))
+    sound = pygame.mixer.Sound('./../sound/' + folder + '/' + file)
 
-    # play the sound
-    pygame.mixer.Sound.play(sounds[-1])
+    # save the sound
+    sounds.append(sound)
 
 # create the key points
 KEY_POINTS = [
@@ -54,7 +55,7 @@ KEY_POINTS = [
 
 # try to erase the previous data
 try: rmtree('./../data/live')
-except Exception as e: print(e)
+except Exception as e: pass
 
 # initialize count and debounce
 count = 0
@@ -92,7 +93,7 @@ while True:
                 RWrists.pop(0)
 
             # calculate the wrist velocity for the last half second
-            RWristVelocity = np.array([0.0, 0.0]) if len(RWrists) < 5 else (RWrists[-1] - RWrists[0]) / 0.5
+            RWristVelocity = np.array([0.0, 0.0]) if len(RWrists) < 5 else (RWrists[-1] - RWrists[0]) / 0.4
 
             # calculate the left wrist difference from the hip
             handDistance = np.linalg.norm(LHip - LWrist) / 1
@@ -103,7 +104,7 @@ while True:
                 i_prev = 0.05
 
                 # iterate over the sounds
-                for sound, i in zip(sounds, np.linspace(0.2, 0.8, len(sounds))):
+                for sound, i, note in zip(sounds, np.linspace(0.2, 0.8, len(sounds)), listdir('./../sound/' + folder)):
 
                     # if the hand distance is in the right range
                     if i_prev < handDistance < i:
@@ -112,10 +113,12 @@ while True:
                         sound.set_volume(np.linalg.norm(RWristVelocity))
 
                         # play the sound
-                        pygame.mixer.Sound.play(sound)
+                        sound.play()
 
-                # print the strum
-                print('Strum:', handDistance)
+                        # print the strum
+                        print('Strum:', note.split('.')[0], np.linalg.norm(RWristVelocity))
+
+                    i_prev = i
 
                 # reset the debounce
                 debounce = 500
@@ -133,5 +136,3 @@ while True:
 
     except Exception as e:
         traceback.print_exc()
-
-
