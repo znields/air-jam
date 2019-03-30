@@ -47,17 +47,17 @@ while True:
             people = json.load(f)['people']
             data = people[0]['pose_keypoints_2d'] if people else [0 for _ in range(25)]
 
-            MidHips.append(np.array(data[KEY_POINTS.index('MidHip') * 3: KEY_POINTS.index('MidHip') * 3 + 2]))
-            LWrists.append(np.array(data[KEY_POINTS.index('LWrist') * 3: KEY_POINTS.index('LWrist') * 3 + 2]))
+            MidHip = np.array(data[KEY_POINTS.index('MidHip') * 3: KEY_POINTS.index('MidHip') * 3 + 2])
+            LWrist = np.array(data[KEY_POINTS.index('LWrist') * 3: KEY_POINTS.index('LWrist') * 3 + 2])
+
             RWrists.append(np.array(data[KEY_POINTS.index('RWrist') * 3: KEY_POINTS.index('RWrist') * 3 + 2]))
 
-            for i in [MidHips, LWrists, RWrists]:
-                if len(i) > 5:
-                    i.pop(0)
+            if len(RWrists) > 5: RWrists.pop(0)
 
             RWristVelocity = np.array([0.0, 0.0]) if len(RWrists) < 5 else RWrists[-1] - RWrists[0]
 
-            print(RWristVelocity)
+            if 50 < np.linalg.norm(RWristVelocity):
+                print('STRUM')
 
             count += 1
 
