@@ -4,6 +4,12 @@ import numpy as np
 import traceback
 import pygame
 from os import listdir
+from pythonosc import osc_message_builder, udp_client
+
+
+PORT_NUMBER = 3333
+IP_NUM = '192.168.43.144'
+client = udp_client.SimpleUDPClient(IP_NUM, PORT_NUMBER)
 
 folder = 'drums'
 
@@ -58,8 +64,8 @@ except Exception as e: pass
 
 # initialize count and debounce
 count = 0
-debounce_left = 1000
-debounce_right = 1000
+debounce_left = 800
+debounce_right = 800
 
 # create a list for right wrist points
 RWrists = []
@@ -108,17 +114,21 @@ while True:
 
             if rw_speed > 0.1 and rw_velocity[1] > 0 > debounce_right and 0 not in MidHip:
 
-                debounce_right = 1000
+                debounce_right = 800
 
                 # if the right wrist is outside the right shoulder
                 if RWrists[-1][0] + 0.05 < RShoulders[-1][0]:
 
+                    client.send_message('/hit', 1)
                     # play the floor tom
                     # sounds['floor-tom'].set_volume(rw_speed)
                     sounds['floor-tom'].play()
                     print('Floor Tom', rw_speed)
 
                 else:
+
+                    client.send_message('/hit', 2)
+
                     # play the floor tom
                     # sounds['mid-tom'].set_volume(rw_speed)
                     sounds['mid-tom'].play()
@@ -134,10 +144,12 @@ while True:
 
             if lw_speed > 0.1 and lw_velocity[1] > 0 > debounce_left and 0 not in MidHip:
 
-                debounce_left = 1000
+                debounce_left = 800
 
                 # if the right wrist is outside the right shoulder
                 if LWrists[-1][0] - 0.05 < LShoulders[-1][0]:
+
+                    client.send_message('/hit', 3)
 
                     # play the snare drum
                     # sounds['snare-drum'].set_volume(rw_speed)
@@ -145,6 +157,9 @@ while True:
                     print('Snare Drum', rw_speed)
 
                 else:
+
+                    client.send_message('/hit', 4)
+
                     # play the floor tom
                     # sounds['ride-cymbal'].set_volume(rw_speed)
                     sounds['ride-cymbal'].play()
