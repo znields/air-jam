@@ -155,7 +155,7 @@ while True:
             speed = x_avg**2 + y_avg**2
             if (debounce < 0 and speed > 0.02):
                 debounce = 1000
-                s = pygame.mixer.Sound('./../sound/jump/BD1050.wav')
+                s = pygame.mixer.Sound('./../sound/jump/BD1050.WAV')
                 s.play()
 
     except FileNotFoundError:
