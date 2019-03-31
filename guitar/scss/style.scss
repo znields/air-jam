@@ -1,0 +1,241 @@
+$sky: #74aec0;
+$wood: #985339;
+$lightwood: #985339 + 1.1;
+$darkwood: #985339 + 0.98;
+$white: #bfcbc7;
+$accent: #cdc0ae;
+$spot: grey;
+$black: rgba(29, 17, 40, 1);
+$border: #4d7f8f;
+
+body {
+  background: $sky;
+}
+
+
+
+.frame {
+  position: relative;
+  margin: 0 auto;
+  display: block;
+  margin-top: 15%;
+  width: 50rem;
+  height: 80rem;
+  overflow: hidden;
+  // border: 2px solid black;
+}
+
+.border_1, .border_2, .border_3, .hole {
+  border: 2px solid $border;
+  border-radius: 50%;
+}
+
+.border_1 {
+  width: 24rem;
+  height: 24rem;
+  border: 2px solid $border;
+  border-radius: 50%;
+  position: absolute;
+  left: 33%;
+  top: 20%;
+    
+}
+
+.border_2 {
+  width: 23rem;
+  height: 23rem;
+  background: $accent;
+  margin: 0.4rem
+}
+
+.border_3 {
+  width: 21.5rem;
+  height: 21.5rem;
+  background: $white;
+  margin: 0.6rem;
+}
+
+.hole {
+  width: 20rem;
+  height: 20rem;
+  background: $spot;
+  margin: 0.6rem;
+  box-shadow: inset 1px 1px 13px 3px #2b2b2b;
+}
+
+.bridge_base {
+  background: $wood;
+  width: 22.9rem;
+  height: 4.2rem;
+  position: absolute;
+  top: 60%;
+  left: 33%;
+  border-top: 2px solid $lightwood;
+  -webkit-box-shadow: 10px 21px 24px 3px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 21px 24px 3px rgba(0,0,0,0.75);
+box-shadow: 10px 21px 24px 3px rgba(0,0,0,0.75);
+
+  &:before {
+  content: "";
+  position: absolute;
+  bottom: -48%;
+  left: 10%;
+  width: 18.4rem;
+  height: 2.1rem;
+  background: $darkwood;
+    -webkit-clip-path: polygon(15% 46%, 84% 46%, 100% 0, 0 0);
+}
+  }
+
+.peg {
+  border-radius: 50%;
+  width: 1.3rem;
+  height: 1.3rem;
+  background: $white;
+  position: absolute;
+  top: 50%;
+  box-shadow: 2x 2x 3px #232121;
+  
+  &:after {
+    content: "";
+    background: $spot;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    top: 30%;
+    position: absolute;
+    left: 28%;
+  }
+}
+
+
+
+
+.peg1 {
+  left: 25%;
+}
+
+.peg2 {
+  left: 35%;
+}
+
+.peg3 {
+  left: 45%;
+}
+
+.peg4 {
+  left: 55%;
+}
+
+.peg5 {
+  left: 65%;
+}
+
+.peg6 {
+  left: 75%;
+}
+
+.bridge {
+ background: $white;
+  width: 13.8rem;
+  height: .4rem;
+  position: absolute;
+  top: 25%;
+  left: 23%;
+  -webkit-transform: rotate(-.5deg);
+  -ms-transform: rotate(-.5deg);
+  transform: rotate(-.5deg);
+  border-radius: 10px;
+  box-shadow: 1px 3px 5px #5c3329;
+}
+
+.string {
+  background: $accent;
+  width: 0.1rem;
+  top: 0%;
+  height: .1rem;
+  position: absolute;
+  left: 41%;
+  
+  -webkit-animation:tail 2.5s ease-in .8s forwards;
+}
+
+.selected {
+  background: red;
+}
+
+.jet {
+  position: absolute;
+}
+
+.jet_1 {
+  left: 44.5%;
+  // z-index: 10;
+}
+
+.jet_2 {
+  left: 49.5%;
+}
+
+.jet_3 {
+  left: 54%;
+}
+
+.jet_4 {
+  left: 58.5%;
+}
+
+.jet_5 {
+  left: 63%;
+}
+
+.jet_6 {
+  left: 67.5%;
+}
+
+.plane {
+  -webkit-transform: translatey(800px);
+  -ms-transform: translatey(800px);
+  transform: translatey(800px);
+  -webkit-animation:fly 2.5s ease-in .7s forwards;
+  animation:fly 2.5s ease-in .7s forwards;
+}
+
+.delay-2 {
+  -webkit-animation:fly 2.5s ease-in .6s forwards;
+  animation:fly 2.5s ease-in .6s forwards;
+}
+
+.delay-3 {
+  -webkit-animation:fly 2.5s ease-in .5s forwards;
+  animation:fly 2.5s ease-in .5s forwards;
+}
+
+
+@-webkit-keyframes tail{
+  100% {
+    top: -3800%;
+    height: 49.5rem;
+  }
+}
+
+@keyframes tail{
+  100% {
+    top: -3800%;
+    height: 49.5rem;
+  }
+}
+
+@-webkit-keyframes fly {
+  100% {
+    -webkit-transform: translatey(0px);
+    transform: translatey(0px);
+  }
+}
+
+@keyframes fly {
+  100% {
+    -webkit-transform: translatey(0px);
+    transform: translatey(0px);
+  }
+}
