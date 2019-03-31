@@ -117,7 +117,7 @@ while True:
                 debounce_right = 800
 
                 # if the right wrist is outside the right shoulder
-                if RWrists[-1][0] + 0.05 < RShoulders[-1][0]:
+                if RWrists[-1][0] + 0.15 < RShoulders[-1][0]:
 
                     client.send_message('/hit', 1)
                     # play the floor tom
@@ -147,7 +147,7 @@ while True:
                 debounce_left = 800
 
                 # if the right wrist is outside the right shoulder
-                if LWrists[-1][0] - 0.05 < LShoulders[-1][0]:
+                if LWrists[-1][0] - 0.15 < LShoulders[-1][0]:
 
                     client.send_message('/hit', 3)
 

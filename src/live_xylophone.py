@@ -75,8 +75,6 @@ mhip_idx = KEY_POINTS.index('MidHip')
 
 # continuously search for new json files
 while True:
-    sleep(0.00001)
-
     try:
         # try to open the next json file as f
         with open('./../data/live/' + str(count).zfill(12) + '_' + 'keypoints.json') as f:
@@ -110,7 +108,7 @@ while True:
 
                 i_prev = 0.0
 
-                for sound, i, note in zip(sounds, np.linspace(0.1, 1.0, len(sounds)), listdir('./../sound/' + folder)):
+                for sound, i, note in zip(sounds, np.linspace(0.05, 1.0, len(sounds)), listdir('./../sound/' + folder)):
 
                     # if the hand distance is in the right range
                     if i_prev < RWrists[-1][0] < i:
@@ -133,13 +131,13 @@ while True:
             lw_velocity = LWrists[-1] - LWrists[0]
             lw_speed = np.linalg.norm(lw_velocity)
 
-            if lw_speed > 0.1 and lw_velocity[1] > 0.05 and 0 > debounce_left and 0 not in MidHip:
+            if lw_speed > 0.1 and lw_velocity[1] > 0.03 and 0 > debounce_left and 0 not in MidHip:
 
                 debounce_left = 1000
 
                 i_prev = 0.0
 
-                for sound, i, note in zip(sounds, np.linspace(0.2, 0.8, len(sounds)), listdir('./../sound/' + folder)):
+                for sound, i, note in zip(sounds, np.linspace(0.03, 1.0, len(sounds)), listdir('./../sound/' + folder)):
 
                     # if the hand distance is in the right range
                     if i_prev < LWrists[-1][0] < i:
