@@ -7,7 +7,7 @@ from pydub.playback import play
 from os import listdir
 import pygame
 
-folder = 'guitar'
+folder = 'guitar-electric'
 
 # initialize the sounds
 sounds = []

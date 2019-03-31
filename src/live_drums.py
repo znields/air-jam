@@ -130,9 +130,9 @@ while True:
 
             # calculate the left wrist velocity
             lw_velocity = LWrists[-1] - LWrists[0]
-            rw_speed = np.linalg.norm(lw_velocity)
+            lw_speed = np.linalg.norm(lw_velocity)
 
-            if rw_speed > 0.1 and lw_velocity[1] > 0 > debounce_left and 0 not in MidHip:
+            if lw_speed > 0.1 and lw_velocity[1] > 0 > debounce_left and 0 not in MidHip:
 
                 debounce_left = 1000
 

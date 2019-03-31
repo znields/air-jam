@@ -1,0 +1,2 @@
+start python live_guitar.py
+start .\..\openpose\bin\OpenPoseDemo.exe --model_folder .\..\openpose\models --write_json ..\data\live --number_people_max 1 --net_resolution -1x160 --keypoint_scale 3 --frame_flip true --camera_resolution 640x360
