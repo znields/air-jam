@@ -1,3 +1,4 @@
+// append letters dynamically into array
 array = ['A', 'B', 'C', 'A', 'B', 'C', 'B', 'C', 'A', 'B', 'C']
 
 setInterval(function(){ 
