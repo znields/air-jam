@@ -6,8 +6,15 @@ from os import listdir
 import pygame
 import sys
 
-folder = 'guitar'
+folder = 'dance'
+sounds = {}
+for file in listdir('./../sound/' + folder):
 
+    # create the new sound and save it
+    sounds[file.split('.')[0]] = pygame.mixer.Sound("./../sound/" + folder + '/' + file)
+
+    # play the sound
+    pygame.mixer.Sound.play(sounds[file.split('.')[0]])
 # create the key points
 KEY_POINTS = [
             "Nose",
@@ -45,25 +52,23 @@ group2parts = {"face": ["Nose"],
                 "hands": ["LWrist", "RWrist"],
                 "shoulders": ["LShoulder", "RShoulder"]}
 
-group2threshold = {"face": 0.005,
-                    "hips": 0.002,
-                    "knees": 0.007,
+group2threshold = {"face": 0.01,
+                    "hips": 0.01,
+                    "knees": 0.01,
                     "elbows": 0.01,
                     "hands": 0.02,
-                    "shoulders": 0.005}
+                    "shoulders": 0.01}
 
-debounce = {"face": 500,
-            "hips": 500,
-            "knees": 500,
-            "elbows": 500,
-            "hands": 500,
-            "shoulders": 500}
+debounce = {"face": 1000,
+            "hips": 1000,
+            "knees": 1000,
+            "elbows": 1000,
+            "hands": 1000,
+            "shoulders": 1000}
 
-'''
 # try to erase the previous data
 try: rmtree('./../data/live')
 except Exception as e: print(e)
-'''
 
 
 # initialize count and debounce
@@ -87,10 +92,6 @@ while True:
             x_coords.append(np.array(data[0::3]))
             y_coords.append(np.array(data[1::3]))
 
-            # increment count and decrement debounce
-            print(count)
-            if (count > 94):
-                sys.exit()
             for k in debounce.keys():
                 debounce[k] -= 1
             count += 1
@@ -115,17 +116,16 @@ while True:
                 y_diff[i] = abs(y_diff[i])
 
             for group in group2parts.keys():
-                print(group)
                 diff, xdiff, ydiff = 0, 0, 0
                 for part in group2parts[group]:
                     index = KEY_POINTS.index(part)
                     xdiff += x_diff[index]
                     ydiff += y_diff[index]
                 diff = xdiff**2 + ydiff**2
-                print(diff)
-                if debounce[group] < 500 and diff > debounce:
-                    debounce = 500
+                if debounce[group] < 500 and diff > group2threshold[group]:
+                    debounce[group] = 3000
                     print(group)
+                    print(diff)
 
     except FileNotFoundError:
         if count > 0:

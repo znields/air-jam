@@ -6,6 +6,12 @@ import pydub
 from pydub.playback import play
 from os import listdir
 import pygame
+from pythonosc import udp_client
+
+
+PORT_NUMBER = 3333
+IP_NUM = '192.168.43.144'
+client = udp_client.SimpleUDPClient(IP_NUM, PORT_NUMBER)
 
 folder = 'guitar-electric'
 
@@ -104,13 +110,15 @@ while True:
                 i_prev = 0.05
 
                 # iterate over the sounds
-                for sound, i, note in zip(sounds, np.linspace(0.2, 0.8, len(sounds)), listdir('./../sound/' + folder)):
+                for sound, j, i, note in zip(sounds, range(len(sounds)), np.linspace(0.2, 0.8, len(sounds)), listdir('./../sound/' + folder)):
 
                     # if the hand distance is in the right range
                     if i_prev < handDistance < i:
 
                         # set the sound volume based on strum speed
                         # sound.set_volume(np.linalg.norm(RWristVelocity))
+
+                        client.send_message('/hit', j + 1)
 
                         # play the sound
                         sound.play()

@@ -4,7 +4,7 @@ import numpy as np
 import traceback
 import pygame
 from os import listdir
-from pythonosc import osc_message_builder, udp_client
+from pythonosc import udp_client
 
 
 PORT_NUMBER = 3333

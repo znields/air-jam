@@ -70,7 +70,8 @@ except Exception as e: pass
 count = 0
 debounce_left = 800
 debounce_right = 800
-debounce_jump = 100
+debounce_jump = 500
+s = pygame.mixer.Sound('./../sound/jump/04-20swift kick.WAV')
 
 # create a list for right wrist points
 RWrists = []
@@ -174,6 +175,7 @@ while True:
             debounce_left -= 1
 
             count += 1
+            debounce_jump -= 1
 
             x_add = data_copy[0::3]
             if len(x_add) > 25:
@@ -208,12 +210,11 @@ while True:
             y_avg = np.sort(y_diff)[(len(y_diff) + num_out)//2]
 
             speed = x_avg**2 + y_avg**2
-            if (debounce_jump < 0 and speed > 0.00):
-                debounce_jump = 100
-                print("BASS")
-                s = pygame.mixer.Sound('./../sound/jump/BD1050.WAV')
+            if debounce_jump < 0 and speed*10**4 > 1:
+                debounce_jump = 4000
+                print("BASS", speed)
+                s.set_volume(1.0)
                 s.play()
-
 
     except FileNotFoundError:
         if count > 0:
