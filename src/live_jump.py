@@ -3,7 +3,9 @@ import json
 import numpy as np
 import traceback
 from os import listdir
+import pygame
 
+'''
 folder = 'guitar'
 
 # initialize pygame
@@ -18,6 +20,7 @@ for file in listdir('./../sound/' + folder):
 
     # play the sound
     pygame.mixer.Sound.play(sounds[-1])
+'''
 
 # try to erase the previous data
 
@@ -27,7 +30,7 @@ except Exception as e: print(e)
 
 # initialize count and debounce
 count = 0
-debounce = 10
+debounce = 500
 
 # create a list for right wrist points
 x_coords = []
@@ -74,8 +77,8 @@ while True:
             y_avg = np.sort(y_diff)[(len(y_diff) + num_out)//2]
 
             speed = x_avg**2 + y_avg**2
-            if (debounce < 0 and speed > 0.02):
-                debounce = 20
+            if (debounce < 0 and speed > 0.01):
+                debounce = 500
                 print(speed)
 
 
