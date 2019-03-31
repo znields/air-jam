@@ -13,9 +13,9 @@
 An average guitar or drum kit of a person starting out costs $300. AirJam especially works for those who do not have access to, or cannot afford traditional instruments and music classes. We have a beautifully minimal UI interface to help users learn the instruments.
 
 **AirJam enables:**
-Party People
-Musicians
-Students
-Relaxers
-Artists
+Party People,
+Musicians,
+Students,
+Relaxers,
+Artists,
 Dancers
