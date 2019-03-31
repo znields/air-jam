@@ -1,4 +1,4 @@
-// Click, touch or keys to play!
+// append letters (A,B..) dynamically into variable 'array'
 
 // crash varibles
 crashCymbolAll = document.getElementById('Crash');
@@ -240,7 +240,7 @@ keytl.to(key, 0.1, {scale: 1.1, transformOrigin: "50% 50%", ease: Expo.easeOut})
 
 // key triggers
 
-
+// append letters dynamically into array
 array = ['A', 'C', 'F', 'F', 'G', 'B']
 
 
