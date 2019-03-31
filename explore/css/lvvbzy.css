@@ -1,0 +1,148 @@
+@mixin screen-above($screen-size) {
+  @media screen and (min-width: $screen-size) {
+    @content;
+  }
+}
+
+@mixin screen-below($screen-size) {
+  @media screen and (max-width: ($screen-size - 1px)) {
+    @content;
+  }
+}
+
+$black: #000;
+$gray-dark: #2f2f2f;
+$gray: #555;
+$gray-light: #f2f2f2;
+$white: #ffffff;
+
+$brand-primary: #1ABC9B;
+$brand-info: #5bc0de;
+$brand-success: #5cb85c;
+$brand-warning: #f0ad4e;
+$brand-danger: #d9534f;
+
+$font-base: 1rem;
+$padding-base: 1rem;
+$margin-base: 1rem;
+$radius-base: 0.25rem;
+
+$darken: 15%;
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	color: $gray;
+	font-size: $font-base;
+	font-family: "Montserrat", sans-serif;
+	text-align: center;
+}
+
+a {
+	color: $brand-primary;
+	text-decoration: none;
+	:hover {
+		color: darken($brand-primary, $darken);
+	}
+}
+
+.centered-cover {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+}
+
+.break-flex {
+	flex: none;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: $font-base * 1.6;
+	padding: $padding-base;
+	i {
+		font-size: $font-base * 2.5;
+	}
+	h1,h2,h3,h4,h5,h6,p {
+		display: inline;
+		color: $white;
+		margin: 0;
+		padding: 0 2rem 0 2rem;
+	}
+}
+
+.form {
+	width: 100%;
+	display: block;
+	padding: $padding-base;
+	font-size: $font-base;
+	color: $gray;
+	background-color: $white;
+	border: .0625rem solid $gray-light;
+	border-radius: $radius-base;
+}
+
+.btn {
+	width: auto;
+	padding: $padding-base;
+	text-decoration: none;
+	vertical-align: middle;
+	border-radius: $radius-base;
+	border: none;
+}
+
+.btn-large {
+	font-size: $font-base * 1.6;
+}
+
+.btn-primary {
+	color: $white;
+	background: $brand-primary;
+}
+
+.btn-info {
+	color: $white;
+	background: $brand-info;
+}
+
+.alert {
+	padding: $padding-base;
+	border: none;
+	h1,h2,h3,h4,h5,h6,p {
+		padding: 0;
+		margin: 0;
+	}
+}
+
+.alert-info {
+	color: $white;
+	background-color: $brand-info;
+}
+
+.alert-success {
+	color: $white;
+	background-color: $brand-success;
+}
+
+.alert-warning {
+	color: $white;
+	background-color: $brand-warning;
+}
+
+.alert-danger {
+	color: $white;
+	background-color: $brand-danger;
+}
+
+.hidden {
+	display: none;
+}
