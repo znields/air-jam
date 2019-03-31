@@ -4,7 +4,8 @@ import numpy as np
 import traceback
 from os import listdir
 
-'''
+folder = 'guitar'
+
 # initialize pygame
 pygame.mixer.init()# the sounds
 sounds = []
@@ -17,9 +18,6 @@ for file in listdir('./../sound/' + folder):
 
     # play the sound
     pygame.mixer.Sound.play(sounds[-1])
-'''
-
-folder = 'guitar'
 
 # create the key points
 KEY_POINTS = [
@@ -94,10 +92,10 @@ while True:
             x_avg = np.sort(x_diff)[(len(x_diff) + num_out)//2]
             y_avg = np.sort(y_diff)[(len(y_diff) + num_out)//2]
 
-
-            if (debounce < 0 and x_avg**2 + y_avg**2 > 0.02):
+            speed = x_avg**2 + y_avg**2
+            if (debounce < 0 and speed > 0.02):
                 debounce = 20
-                print("jump")
+                print(speed)
 
 
     except FileNotFoundError:
