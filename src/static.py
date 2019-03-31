@@ -4,13 +4,14 @@ from os import listdir
 # iterate over each file in the unprocessed video folder
 
 
-for file in set(listdir('./../videos/unprocessed')) - set(listdir('./../data')):
+#for file in set(listdir('./../videos/unprocessed')) - set(listdir('./../data')):
+for file in set(listdir('./../data/live')):
 
     # get the name and extension of the file
     name, ext = file.split('.')
 
     # process the video
-    subprocess.call([r"./bin/OpenPoseDemo.exe",
+    subprocess.call([r"./../openpose/bin/OpenPoseDemo.exe",
                      "--video", "./../videos/unprocessed/" + file,
                      "--write_video", "./../videos/processed/" + name + '.avi',
                      "--write_json", "./../data/" + file,
