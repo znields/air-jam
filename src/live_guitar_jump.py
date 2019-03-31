@@ -2,8 +2,6 @@ from shutil import rmtree
 import json
 import numpy as np
 import traceback
-import pydub
-from pydub.playback import play
 from os import listdir
 import pygame
 
@@ -59,7 +57,10 @@ except Exception as e: pass
 
 # initialize count and debounce
 count = 0
-debounce = 10000
+debounce = 0
+
+x_coords = []
+y_coords = []
 
 # create a list for right wrist points
 RWrists = []
@@ -75,6 +76,7 @@ while True:
 
             # get the pose key points
             data = people[0]['pose_keypoints_2d'] if people else [0 for _ in range(75)]
+            data_copy = data.copy()
 
             # get the indices for left hip and wrist and right wrist
             lh_idx, lw_idx, rw_idx = KEY_POINTS.index('LHip'), KEY_POINTS.index('RWrist'), KEY_POINTS.index('LWrist')
@@ -127,8 +129,8 @@ while True:
             debounce -= 1
             count += 1
 
-            x_coords.append(np.array(data[0::3]))
-            y_coords.append(np.array(data[1::3]))
+            x_coords.append(np.array(data_copy[0::3]))
+            y_coords.append(np.array(data_copy[1::3]))
 
             num_out = 0
             for i in range(len(x_coords[-1])):
@@ -155,6 +157,7 @@ while True:
             speed = x_avg**2 + y_avg**2
             if (debounce < 0 and speed > 0.02):
                 debounce = 1000
+                print("BASS")
                 s = pygame.mixer.Sound('./../sound/jump/BD1050.WAV')
                 s.play()
 
