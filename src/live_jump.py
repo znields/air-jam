@@ -19,25 +19,6 @@ for file in listdir('./../sound/' + folder):
     # play the sound
     pygame.mixer.Sound.play(sounds[-1])
 
-# create the key points
-KEY_POINTS = [
-            "Nose",
-            "Neck",
-            "RShoulder",
-            "RElbow",
-            "RWrist",
-            "LShoulder",
-            "LElbow",
-            "LWrist",
-            "MidHip",
-            "RHip",
-            "RKnee",
-            "RAnkle",
-            "LHip",
-            "LKnee",
-            "LAnkle"
-        ]
-
 # try to erase the previous data
 
 try: rmtree('./../data/live')
