@@ -2,7 +2,7 @@
 
 **AirJam enables smart, effortless and fun music creation for everybody.** When you move your hands in front of our camera, our smart pose-detection algorithms predicts how you are playing the instrument, and generates the appropriate sounds. You can also generate music by dancing in front of the camera.
 
-Our features:
+**Our features:**
 
 🤳 Uses computer vision algorithms to let you play instruments in the air - like you always wanted to!
 🎶 Three exciting instruments to master: the guitar, drums and xylophone
