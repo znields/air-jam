@@ -6,15 +6,13 @@ from os import listdir
 import pygame
 import sys
 
-folder = 'dance'
+folder = '8-bit'
 sounds = {}
+pygame.mixer.init()
+# iterate over each of the sounds
 for file in listdir('./../sound/' + folder):
-
     # create the new sound and save it
     sounds[file.split('.')[0]] = pygame.mixer.Sound("./../sound/" + folder + '/' + file)
-
-    # play the sound
-    pygame.mixer.Sound.play(sounds[file.split('.')[0]])
 # create the key points
 KEY_POINTS = [
             "Nose",
@@ -52,12 +50,12 @@ group2parts = {"face": ["Nose"],
                 "hands": ["LWrist", "RWrist"],
                 "shoulders": ["LShoulder", "RShoulder"]}
 
-group2threshold = {"face": 0.01,
-                    "hips": 0.01,
-                    "knees": 0.01,
-                    "elbows": 0.01,
-                    "hands": 0.02,
-                    "shoulders": 0.01}
+group2threshold = {"face": 0.015,
+                    "hips": 0.02,
+                    "knees": 0.02,
+                    "elbows": 0.03,
+                    "hands": 0.04,
+                    "shoulders": 0.015}
 
 debounce = {"face": 1000,
             "hips": 1000,
@@ -69,6 +67,7 @@ debounce = {"face": 1000,
 # try to erase the previous data
 try: rmtree('./../data/live')
 except Exception as e: print(e)
+
 
 
 # initialize count and debounce
@@ -124,8 +123,8 @@ while True:
                 diff = xdiff**2 + ydiff**2
                 if debounce[group] < 500 and diff > group2threshold[group]:
                     debounce[group] = 3000
-                    print(group)
-                    print(diff)
+                    s = sounds[group]
+                    s.play()
 
     except FileNotFoundError:
         if count > 0:
